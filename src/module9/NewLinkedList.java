@@ -63,15 +63,10 @@ public class NewLinkedList<E> {
         size --;
     }
         public void clear() {
-
-            for (Node<E> x = firstNode; x != null; ) {
-                Node<E> next = x.next;
-                x.data = null;
-                x.next = null;
-                x.prev = null;
-                x = next;
+            for (int i = 0; i < size; i++) {
+                remove(0);
             }
-            firstNode = lastNode = null;
+//            firstNode = lastNode = null;
             size = 0;
         }
 
