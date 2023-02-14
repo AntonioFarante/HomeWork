@@ -2,9 +2,7 @@ package module10;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Scanner;
+import java.util.*;
 
 public class Task3 {
     public static void main(String[] args) {
@@ -33,6 +31,16 @@ public class Task3 {
                 e.printStackTrace();
             }
         }
-        System.out.println("result = " + result);
+        Comparator<String> comparator = new Comparator<String>() {
+
+            @Override
+            public int compare(String o1, String o2) {
+                return result.get(o1).compareTo(result.get(o2));
+            }
+        };
+
+        Map<String, Integer> sorted = new TreeMap<>(comparator);
+        sorted.putAll(result);
+        System.out.println(sorted);
     }
 }
