@@ -31,13 +31,9 @@ public class Task3 {
                 e.printStackTrace();
             }
         }
-        Comparator<String> comparator = new Comparator<String>() {
+        Comparator<String> comparator = (o1, o2) -> result.get(o1).compareTo(result.get(o2));
 
-            @Override
-            public int compare(String o1, String o2) {
-                return result.get(o1).compareTo(result.get(o2));
-            }
-        };
+        ;
 
         Map<String, Integer> sorted = new TreeMap<>(comparator);
         sorted.putAll(result);
