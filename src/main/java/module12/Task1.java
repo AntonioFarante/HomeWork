@@ -2,7 +2,7 @@ package module12;
 
 import java.util.Date;
 
-public class Test {
+public class Task1 {
     public static void main(String[] args) throws InterruptedException {
         long timeStartingProgram = new Date().getTime();
         new MyThread().start();
