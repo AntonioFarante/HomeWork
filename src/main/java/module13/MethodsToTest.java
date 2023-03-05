@@ -12,31 +12,19 @@ import java.net.http.HttpResponse;
 import java.util.List;
 
 public class MethodsToTest {
-    private static final HttpClient HTTP_CLIENT = HttpClient.newHttpClient();
-    private static final Gson GSON = new Gson();
+    private final HttpClient HTTP_CLIENT = HttpClient.newHttpClient();
+    private final Gson GSON = new Gson();
 
-    public static void sendGET(String uri) throws URISyntaxException, IOException, InterruptedException {
+    public void sendGET(String uri) throws URISyntaxException, IOException, InterruptedException {
         HttpRequest httpRequest = HttpRequest.newBuilder(new URI(uri))
                 .GET()
                 .build();
         HttpResponse<String> response = HTTP_CLIENT.send(httpRequest, HttpResponse.BodyHandlers.ofString());
         System.out.println("response.body() = " + response.body());
         System.out.println("response.statusCode() = " + response.statusCode());
-//        User UserToJson = GSON.fromJson(response.body(), User.class);
-//        return UserToJson;
-    }
-    public static List<User> getUserById (String uri) throws URISyntaxException, IOException, InterruptedException {
-        HttpRequest httpRequest = HttpRequest.newBuilder(new URI(uri))
-                .GET()
-                .build();
-        HttpResponse<String> response = HTTP_CLIENT.send(httpRequest, HttpResponse.BodyHandlers.ofString());
-        System.out.println("response.body() = " + response.body());
-        System.out.println("response.statusCode() = " + response.statusCode());
-        List<User> findedUsers = GSON.fromJson(response.body(), new TypeToken<List<User>>() {}.getType());
-        return findedUsers;
     }
 
-    public static List<User> getUserByUserName (String uri, String username) throws URISyntaxException, IOException, InterruptedException {
+    public List<User> getUserById (String uri) throws URISyntaxException, IOException, InterruptedException {
         HttpRequest httpRequest = HttpRequest.newBuilder(new URI(uri))
                 .GET()
                 .build();
@@ -47,7 +35,18 @@ public class MethodsToTest {
         return findedUsers;
     }
 
-    public static User sendPOST(String uri, User user) throws URISyntaxException, IOException, InterruptedException {
+    public List<User> getUserByUserName (String uri, String username) throws URISyntaxException, IOException, InterruptedException {
+        HttpRequest httpRequest = HttpRequest.newBuilder(new URI(uri))
+                .GET()
+                .build();
+        HttpResponse<String> response = HTTP_CLIENT.send(httpRequest, HttpResponse.BodyHandlers.ofString());
+        System.out.println("response.body() = " + response.body());
+        System.out.println("response.statusCode() = " + response.statusCode());
+        List<User> findedUsers = GSON.fromJson(response.body(), new TypeToken<List<User>>() {}.getType());
+        return findedUsers;
+    }
+
+    public User sendPOST(String uri, User user) throws URISyntaxException, IOException, InterruptedException {
         final String requestBody = GSON.toJson(user);
         HttpRequest httpRequest = HttpRequest.newBuilder(new URI(uri))
                 .POST(HttpRequest.BodyPublishers.ofString(requestBody))
@@ -60,7 +59,7 @@ public class MethodsToTest {
         return addedUser;
     }
 
-    public static List<User> MakeGetOfList(String uri) throws URISyntaxException, IOException, InterruptedException {
+    public List<User> MakeGetOfList(String uri) throws URISyntaxException, IOException, InterruptedException {
         HttpRequest httpRequest = HttpRequest.newBuilder(new URI(uri))
                 .GET()
                 .build();
@@ -68,22 +67,20 @@ public class MethodsToTest {
         List<User> users = GSON.fromJson(response.body(), new TypeToken<List<User>>(){}.getType());
         return users;
     }
-    public static void sendDELETE(String uri) throws URISyntaxException, IOException, InterruptedException {
+
+    public void sendDELETE(String uri) throws URISyntaxException, IOException, InterruptedException {
         HttpRequest httpRequest = HttpRequest.newBuilder(new URI(uri + "/" + "1"))
                 .DELETE()
                 .build();
         HttpResponse<String> response = HTTP_CLIENT.send(httpRequest, HttpResponse.BodyHandlers.ofString());
-        System.out.println("DELETE response.body() = " + response.body());
-        System.out.println("DELETE response.statusCode() = " + response.statusCode());
     }
-    public static User sendPUT (String uri, User user) throws IOException, InterruptedException, URISyntaxException {
+
+    public User sendPUT (String uri, User user) throws IOException, InterruptedException, URISyntaxException {
         HttpRequest httpRequest = HttpRequest.newBuilder(new URI(uri))
                 .header("Content-type", "application/json; charset=UTF-8")
                 .PUT(HttpRequest.BodyPublishers.ofString(GSON.toJson(user)))
                 .build();
         HttpResponse<String> response = HTTP_CLIENT.send(httpRequest, HttpResponse.BodyHandlers.ofString());
-        System.out.println("PUT response.body() = " + response.body());
-        System.out.println("PUT response.statusCode() = " + response.statusCode());
         User putUser = GSON.fromJson(response.body(), User.class);
         return putUser;
     }
